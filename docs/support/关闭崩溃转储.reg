@@ -1,0 +1,5 @@
+Windows Registry Editor Version 5.00
+
+; Vivid Player - undo crash-dump capture for VividPlayer.App.exe
+
+[-HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\VividPlayer.App.exe]
