@@ -19,9 +19,18 @@
 
 这种一闪就没，需要先让 Windows 在下次崩溃时自动存一份：
 
-1. 下载并双击运行 [启用崩溃转储.reg](启用崩溃转储.reg)，弹窗点「是」。（导入时会弹 UAC，点「是」即可；如果没有管理员权限，改用上面「卡死」那种任务管理器抓法。）
-2. 再打开 Vivid Player，把崩溃的操作重做一遍，让它再崩一次。
-3. 打开这个文件夹（把整段路径复制到「文件资源管理器」顶部的地址栏回车即可，其中「你的用户名」换成你自己的）：`C:\Users\你的用户名\AppData\Local\VividPlayer\CrashDumps`
-4. 里面会有 VividPlayer.App.exe.<数字>.dmp，压缩后发到 demoapp_dev@hotmail.com。
+1. 在开始按钮上右键 →「终端（管理员）」或「Windows PowerShell（管理员）」，弹出 UAC 时点「是」。（没有管理员权限的话，改用上面「卡死」那种任务管理器抓法。）
+2. 把下面整段复制进去，回车。看到三行「操作成功完成」就好了：
+   ```
+   $k = "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\VividPlayer.App.exe"; reg add $k /v DumpType /t REG_DWORD /d 2 /f; reg add $k /v DumpCount /t REG_DWORD /d 10 /f; reg add $k /v DumpFolder /t REG_EXPAND_SZ /d "%LOCALAPPDATA%\VividPlayer\CrashDumps" /f
+   ```
+   > 要在 **PowerShell / 终端** 里执行，不要用旧的「命令提示符」（cmd）。
+3. 再打开 Vivid Player，把崩溃的操作重做一遍，让它再崩一次。
+4. 打开这个文件夹（把整段路径复制到「文件资源管理器」顶部的地址栏回车即可，其中「你的用户名」换成你自己的）：`C:\Users\你的用户名\AppData\Local\VividPlayer\CrashDumps`
+5. 里面会有 VividPlayer.App.exe.<数字>.dmp，压缩后发到 demoapp_dev@hotmail.com。
 
-弄完这次，下载并双击 [关闭崩溃转储.reg](关闭崩溃转储.reg) 即可还原。
+弄完这次，同样用管理员 PowerShell 执行下面这句即可还原：
+
+```
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\VividPlayer.App.exe" /f
+```
