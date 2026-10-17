@@ -33,10 +33,10 @@
 | 新建类型 | 名称 | 数值数据 |
 |---|---|---|
 | DWORD (32 位)值 | `DumpType` | `1` |
-| DWORD (32 位)值 | `DumpCount` | `10` |
+| DWORD (32 位)值 | `DumpCount` | `3` |
 | 字符串值 | `DumpFolder` | `C:\dumps` |
 
-   - `DumpType` = 1 表示保存小型转储（mini dump，一般几 MB），`DumpCount` = 10 表示最多保留 10 份，`DumpFolder` 是 Dump 保存的文件夹。
+   - `DumpType` = 1 表示保存小型转储（mini dump，一般几 MB），`DumpCount` = 3 表示最多保留最近 3 份，`DumpFolder` 是 Dump 保存的文件夹。
    - 这个设置对**所有程序**生效（不只是 Vivid Player），这段时间里任何程序崩溃都会在 `C:\dumps` 留一份转储，所以抓完记得按最后一步还原。
 
 建好后，右侧应该能看到这 3 个值（外加一个「(默认)」）。
