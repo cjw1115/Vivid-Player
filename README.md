@@ -78,14 +78,13 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy Bypass -Force
 
 ### 下载
 
-到 [Releases 页面](https://github.com/cjw1115/Vivid-Player/releases/tag/trt-rtx-ep) 下载下面**两个**文件（Windows Update 本身也是一起装这两个）：
+到 [Releases 页面](https://github.com/cjw1115/Vivid-Player/releases/tag/trt-rtx-ep) 下载下面这个文件：
 
 | 文件 | 大小 | SHA256 |
 |---|---|---|
 | `NvTensorRtRtxEP.1.8.24.0.msix` | 约 71 MB | `266121509BFAEEB6680DD1D65B01BDC54B94D446BBE8640BA76B823BCC2147D1` |
-| `NvTensorRtRtxEP.2.30.49.0.msix` | 约 109 MB | `A71A8BAEBEF3A1C227D35E1EAFC4AEC4D29844EEB17C733498DB6C7F74190834` |
 
-这两个文件就是 Windows Update 下发的微软原版安装包，带有 **Microsoft Corporation** 的数字签名，没有任何改动。你可以在文件上右键 →「属性」→「数字签名」里看到签名，也可以用下面这条命令核对 SHA256：
+这个文件就是 Windows Update 下发的微软原版安装包，带有 **Microsoft Corporation** 的数字签名，没有任何改动。你可以在文件上右键 →「属性」→「数字签名」里看到签名，也可以用下面这条命令核对 SHA256：
 
 ```
 Get-FileHash .\NvTensorRtRtxEP.1.8.24.0.msix
@@ -96,13 +95,12 @@ Get-FileHash .\NvTensorRtRtxEP.1.8.24.0.msix
 ### 安装
 
 1. 先关闭 Vivid Player。
-2. 双击 `NvTensorRtRtxEP.1.8.24.0.msix`，在弹出的窗口里点「安装」。装完后再双击 `NvTensorRtRtxEP.2.30.49.0.msix` 安装。
-3. 如果双击后没有出现安装窗口（有些系统去掉了「应用安装程序」），就在两个文件所在的文件夹空白处按住 Shift 再右键 →「在终端中打开」/「在此处打开 PowerShell 窗口」，执行：
+2. 双击 `NvTensorRtRtxEP.1.8.24.0.msix`，在弹出的窗口里点「安装」。
+3. 如果双击后没有出现安装窗口（有些系统去掉了「应用安装程序」），就在文件所在的文件夹空白处按住 Shift 再右键 →「在终端中打开」/「在此处打开 PowerShell 窗口」，执行：
    ```
    Add-AppxPackage .\NvTensorRtRtxEP.1.8.24.0.msix
-   Add-AppxPackage .\NvTensorRtRtxEP.2.30.49.0.msix
    ```
-4. 检查是否装好：在 PowerShell 里执行下面这句，能看到 `TRT-RTX.EP.1.8` 和 `TRT-RTX.EP.2` 两行就说明成功了：
+4. 检查是否装好：在 PowerShell 里执行下面这句，能看到 `TRT-RTX.EP.1.8` 这一行就说明成功了：
    ```
    Get-AppxPackage *TRT-RTX* | Select-Object Name, Version
    ```
