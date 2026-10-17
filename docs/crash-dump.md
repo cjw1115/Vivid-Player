@@ -17,20 +17,37 @@
 
 ## 如果程序一启动就闪退 / 用着自己崩掉
 
-这种一闪就没，需要先让 Windows 在下次崩溃时自动存一份：
+这种一闪就没，需要先在注册表里加一个设置，让 Windows 在下次崩溃时自动存一份。
 
-1. 在开始按钮上右键 →「终端（管理员）」或「Windows PowerShell（管理员）」，弹出 UAC 时点「是」。（没有管理员权限的话，改用上面「卡死」那种任务管理器抓法。）
-2. 把下面整段复制进去，回车。看到三行「操作成功完成」就好了：
+### 第一步：在注册表里加设置（只需做一次）
+
+1. 按 Win + R，输入 `regedit`，回车，弹出 UAC 时点「是」。（没有管理员权限的话，改用上面「卡死」那种任务管理器抓法。）
+2. 把下面这串路径复制到注册表编辑器顶部的地址栏，回车：
    ```
-   $k = "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\VividPlayer.App.exe"; reg add $k /v DumpType /t REG_DWORD /d 2 /f; reg add $k /v DumpCount /t REG_DWORD /d 10 /f; reg add $k /v DumpFolder /t REG_EXPAND_SZ /d "%LOCALAPPDATA%\VividPlayer\CrashDumps" /f
+   HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Windows Error Reporting
    ```
-   > 要在 **PowerShell / 终端** 里执行，不要用旧的「命令提示符」（cmd）。
-3. 再打开 Vivid Player，把崩溃的操作重做一遍，让它再崩一次。
-4. 打开这个文件夹（把整段路径复制到「文件资源管理器」顶部的地址栏回车即可，其中「你的用户名」换成你自己的）：`C:\Users\你的用户名\AppData\Local\VividPlayer\CrashDumps`
-5. 里面会有 VividPlayer.App.exe.<数字>.dmp，压缩后发到 demoapp_dev@hotmail.com。
+3. 看左侧 `Windows Error Reporting` 下面有没有一项叫 **LocalDumps**。
+   - 没有的话：在 `Windows Error Reporting` 上右键 →「新建」→「项」，命名为 `LocalDumps`。
+4. 在 `LocalDumps` 上右键 →「新建」→「项」，命名为 `VividPlayer.App.exe`（大小写无所谓，但拼写要完全一致）。
+5. 选中刚建的 `VividPlayer.App.exe`，在右侧空白处右键，按下表依次新建 3 个值。双击新建的值就能填数据：
 
-弄完这次，同样用管理员 PowerShell 执行下面这句即可还原：
+| 新建类型 | 名称 | 数值数据 |
+|---|---|---|
+| DWORD (32 位)值 | `DumpType` | `2` |
+| DWORD (32 位)值 | `DumpCount` | `10` |
+| 可扩充字符串值 | `DumpFolder` | `%LOCALAPPDATA%\VividPlayer\CrashDumps` |
 
-```
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting\LocalDumps\VividPlayer.App.exe" /f
-```
+   - `DumpType` = 2 表示保存完整转储，`DumpCount` = 10 表示最多保留 10 份。
+   - `DumpFolder` 一定要选「**可扩充字符串值**」，不是普通的「字符串值」，数据原样填，包括两边的 `%`。
+
+建好后，右侧应该能看到这 3 个值（外加一个「(默认)」）。
+
+### 第二步：复现崩溃，取出 Dump
+
+1. 再打开 Vivid Player，把崩溃的操作重做一遍，让它再崩一次。
+2. 打开这个文件夹（把整段路径复制到「文件资源管理器」顶部的地址栏回车即可，其中「你的用户名」换成你自己的）：`C:\Users\你的用户名\AppData\Local\VividPlayer\CrashDumps`
+3. 里面会有 VividPlayer.App.exe.<数字>.dmp，压缩后发到 demoapp_dev@hotmail.com。
+
+### 用完还原
+
+回到注册表编辑器的 `...\Windows Error Reporting\LocalDumps`，在 `VividPlayer.App.exe` 这一项上右键 →「删除」即可。`LocalDumps` 本身不用删。
