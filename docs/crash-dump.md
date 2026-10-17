@@ -35,19 +35,18 @@
 |---|---|---|
 | DWORD (32 位)值 | `DumpType` | `2` |
 | DWORD (32 位)值 | `DumpCount` | `10` |
-| 可扩充字符串值 | `DumpFolder` | `%LOCALAPPDATA%\VividPlayer\CrashDumps` |
+| 字符串值 | `DumpFolder` | `C:\dumps` |
 
-   - `DumpType` = 2 表示保存完整转储，`DumpCount` = 10 表示最多保留 10 份。
-   - `DumpFolder` 一定要选「**可扩充字符串值**」，不是普通的「字符串值」，数据原样填，包括两边的 `%`。
+   - `DumpType` = 2 表示保存完整转储，`DumpCount` = 10 表示最多保留 10 份，`DumpFolder` 是 Dump 保存的文件夹。
 
 建好后，右侧应该能看到这 3 个值（外加一个「(默认)」）。
 
 ### 第二步：复现崩溃，取出 Dump
 
 1. 再打开 Vivid Player，把崩溃的操作重做一遍，让它再崩一次。
-2. 打开这个文件夹（把整段路径复制到「文件资源管理器」顶部的地址栏回车即可，其中「你的用户名」换成你自己的）：`C:\Users\你的用户名\AppData\Local\VividPlayer\CrashDumps`
+2. 打开 `C:\dumps` 文件夹（复制到「文件资源管理器」顶部的地址栏回车即可）。
 3. 里面会有 VividPlayer.App.exe.<数字>.dmp，压缩后发到 demoapp_dev@hotmail.com。
 
 ### 用完还原
 
-回到注册表编辑器的 `...\Windows Error Reporting\LocalDumps`，在 `VividPlayer.App.exe` 这一项上右键 →「删除」即可。`LocalDumps` 本身不用删。
+回到注册表编辑器的 `...\Windows Error Reporting\LocalDumps`，在 `VividPlayer.App.exe` 这一项上右键 →「删除」即可。`LocalDumps` 本身不用删。`C:\dumps` 里的文件发完后也可以直接删掉。
