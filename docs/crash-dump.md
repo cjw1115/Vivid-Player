@@ -28,8 +28,7 @@
    ```
 3. 看左侧 `Windows Error Reporting` 下面有没有一项叫 **LocalDumps**。
    - 没有的话：在 `Windows Error Reporting` 上右键 →「新建」→「项」，命名为 `LocalDumps`。
-4. 在 `LocalDumps` 上右键 →「新建」→「项」，命名为 `VividPlayer.App.exe`（大小写无所谓，但拼写要完全一致）。
-5. 选中刚建的 `VividPlayer.App.exe`，在右侧空白处右键，按下表依次新建 3 个值。双击新建的值就能填数据：
+4. 选中 `LocalDumps`，在右侧空白处右键，按下表依次新建 3 个值。双击新建的值就能填数据：
 
 | 新建类型 | 名称 | 数值数据 |
 |---|---|---|
@@ -38,6 +37,7 @@
 | 字符串值 | `DumpFolder` | `C:\dumps` |
 
    - `DumpType` = 2 表示保存完整转储，`DumpCount` = 10 表示最多保留 10 份，`DumpFolder` 是 Dump 保存的文件夹。
+   - 这个设置对**所有程序**生效（不只是 Vivid Player），这段时间里任何程序崩溃都会在 `C:\dumps` 留一份完整转储，比较占硬盘，所以抓完记得按最后一步还原。
 
 建好后，右侧应该能看到这 3 个值（外加一个「(默认)」）。
 
@@ -45,8 +45,8 @@
 
 1. 再打开 Vivid Player，把崩溃的操作重做一遍，让它再崩一次。
 2. 打开 `C:\dumps` 文件夹（复制到「文件资源管理器」顶部的地址栏回车即可）。
-3. 里面会有 VividPlayer.App.exe.<数字>.dmp，压缩后发到 demoapp_dev@hotmail.com。
+3. 里面以 `VividPlayer.App.exe` 开头的 .dmp 文件就是 Vivid Player 的（其他程序的不用管），压缩后发到 demoapp_dev@hotmail.com。
 
 ### 用完还原
 
-回到注册表编辑器的 `...\Windows Error Reporting\LocalDumps`，在 `VividPlayer.App.exe` 这一项上右键 →「删除」即可。`LocalDumps` 本身不用删。`C:\dumps` 里的文件发完后也可以直接删掉。
+回到注册表编辑器的 `...\Windows Error Reporting\LocalDumps`，在右侧把刚才建的 `DumpType`、`DumpCount`、`DumpFolder` 三个值分别右键 →「删除」即可。`LocalDumps` 这一项本身不用删。`C:\dumps` 里的文件发完后也可以直接删掉。
